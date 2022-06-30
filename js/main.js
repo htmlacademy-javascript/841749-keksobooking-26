@@ -152,5 +152,3 @@ const createAccomadation = (numberAvatar) => {
 
 // Десять случайных подборов проживания
 const accomadation = Array.from({length: ACCOMMODATION_COUNT}, createAccomadation);
-
-console.log(accomadation);
