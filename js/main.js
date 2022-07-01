@@ -1,90 +1,162 @@
-/**
- * Нужно несколько вспомогательных функции (Функции могут взяты из интернета)
- *
- * 1. Функция, возвращающая случайное целое число из переданного диапазона включительно. Пример использования функции:
- *   1) имя_функции(от, до); // Результат: целое число из диапазона "от...до"
- *       1)Учтите, что диапазон может быть только положительный, включая ноль. А также придумайте, как функция должна вести себя, если передать значение «до» меньшее, чем значение «от», или равное ему.
- *       2)Функция может не гарантировать верный результат, если в переданном диапазоне нет ни одного подходящего числа.
- */
+const TITLES = [
+  'Если вы ищете ночлег, то любой ваш каприз нам по силам',
+  'Мы ценим ваше время, всё по шаговой доступности',
+  'Минимализм, только подчёркивает ваш деловой вкус',
+  'Тёплое уютное гнёздышко, прилетайте к нам.',
+  'Дёшево и не сердито. Практичность и прагматичность.',
+  'Тут, как дома, всё с деланно с любовью'
+];
+
+const ACCOMMODATION_TYPES = [
+  'palace',
+  'flat',
+  'house',
+  'bungalow',
+  'hotel'
+];
+
+const CHECKINS = [
+  '12:00',
+  '13:00',
+  '14:00'
+];
+
+const CHECKOUTS = [
+  '12:00',
+  '13:00',
+  '14:00'
+];
+
+const FEATURS = [
+  'wifi',
+  'dishwasher',
+  'parking',
+  'washer',
+  'elevator',
+  'conditioner'
+];
+
+const DESCRIPTIONS = [
+  'Мы предоставляем наивысший сервис, наши клиенты не простые люди',
+  'Идеальное место расположения в центре города, за считаные минуты вы окажитесь в нужном месте. Удобство и комфорт обеспечен.',
+  'Наш интерьер не навясчивый, вы найдёте все необходимое.',
+  'Рай для романтиков, созданный уют не оставит вас равнодушным',
+  'Если вы турист, то вы попали по адресу. Всё культурное наследие в пошаговой доступности',
+  'Экология и природа, вас не будет беспокоить быстрая жизнь города'
+];
+
+const PHOTOS = [
+  'https://assets.htmlacademy.ru/content/intensive/javascript-1/keksobooking/duonguyen-8LrGtIxxa4w.jpg',
+  'https://assets.htmlacademy.ru/content/intensive/javascript-1/keksobooking/brandon-hoogenboom-SNxQGWxZQi0.jpg',
+  'https://assets.htmlacademy.ru/content/intensive/javascript-1/keksobooking/claire-rendall-b6kAwr1i0Iw.jpg'
+];
+const Location = {
+  LAT_MIN: 35.65000,
+  LAT_MAX: 35.70000,
+  LNG_MIN: 139.70000,
+  LNG_MAX: 139.80000,
+  DIGITS: 5
+};
+
+const ACCOMMODATION_COUNT = 10;
 
 /**
  * Функция по получению случайного целого числа в заданном интервале, включительно
  * https://developer.mozilla.org/ru/docs/Web/JavaScript/Reference/Global_Objects/Math/random - ссылка на ресурс функции
- * @method Math.random() - метод возвращения случайного числа
- * @method Math.ceil(min) - метод округления аргумента до ближайшего большего целого. Пример:(Math.ceil(.95);    // 1)
- * @method Math.floor(max) - метод округляния аргумента до ближайшего меньшего целого. Пример:(Math.floor( 45.95); //  45)
- * @param {number} min - минимальное число
- * @param {number} max - максимальное число
+ * @param {number} minValue - минимальное число
+ * @param {number} maxValue - максимальное число
  * @returns {number} - возращает случайно целое число в заданном интервале
  * @returns {string} - описание: диапозон не может быть отрицательным
  */
 
 const getRandomIntInclusive = (min, max) => {
-  if (min >= 0 && max >= 0) {
-    min = Math.ceil(min);
-    max = Math.floor(max);
-    return Math.floor(Math.random() * (max - min + 1)) + min; //Максимум и минимум включаются
-  }
-
-  return('диапазон может быть только положительный, включая ноль.');
+  [min, max] = [max, min];
+  const lower = Math.ceil(Math.min(Math.abs(min), Math.abs(max)));
+  const upper = Math.floor(Math.max(Math.abs(min), Math.abs(max)));
+  return Math.floor(Math.random() * (upper - lower + 1)) + lower;
 };
-
-// аргументы, которые передаются в функции при вызове
-getRandomIntInclusive(3, 10);
-
-/**
- * Функция с тернарным оператором
-const getRandomIntInclusive = (min, max) => {
-  min = Math.ceil(min);
-  max = Math.floor(max);
-return (min >= 0 && max >= 0) ? Math.floor(Math.random() * (max - min + 1)) + min : ('диапазон может быть только положительный, включая ноль.');
-}
-
-getRandomIntInclusive(3, 10);
-*/
-
-
-/**
- * Нужно несколько вспомогательных функции (Функции могут взяты из интернета)
- *
- * 2.Функция, возвращающая случайное число с плавающей точкой из переданного диапазона включительно. Будет использоваться для генерации временных географических координат в следующем задании. Пример использования функции:
- *    1)имя_функции(от, до, количество_знаков_после_запятой); // Результат: число с плавающей точкой из диапазона "от...до" с указанным "количеством знаков после запятой"
- *      1)Учтите, что диапазон может быть только положительный, включая ноль. А также придумайте, как функция должна вести себя, если передать значение «до» меньшее, чем значение «от», или равное ему. Не забудьте, что в случае с дробными числами диапазон может быть в десятых, сотых, тысячных и т. д. долях. Например, 1.1, 1.2 — корректный диапазон.
- *
-  */
 
 /**
  * Функция, возвращающая случайное число и возможно округление.
  * https://developer.mozilla.org/ru/docs/Web/JavaScript/Reference/Global_Objects/Math/random - ссылка на ресурс функции
- * @method  Math.random() - метод возвращения случайного числа
- * @method toFixed() - меетод форматирует число, используя запись с фиксированной запятой.
  * @param {number} min - минимальное число
  * @param {number} max - максимальное число
  * @param {number} digits -  количество цифр после десятичной запятой, если аргумент опущен, он считается равным 0.
- * @constant {number} RANDOM_ARBITARY_NUMBER - константа для получения случайного числа
- * @returns {number} - возращает случайно число в заданном интервале и возможно округление.
+ * @returns {string} - возращает случайно число в заданном интервале и возможно округление.
  * @returns {string} - описание: диапозон не может быть отрицательным
  */
 
-const getRandomArbitrary = (min, max, digits) => {
-  if (min >= 0 && max >= 0) {
-    const RANDOM_ARBITARY_NUMBER = (Math.random() * (max - min + 1) + min); //Максимум и минимум включаются
-    return RANDOM_ARBITARY_NUMBER.toFixed(digits);
-  }
-
-  return('диапазон может быть только положительный, включая ноль.');
+const getRandomFloat = (min, max, digits) => {
+  const RandomFloatNumber = (Math.random() * (max - min + 1) + min);
+  const RandomFloatString = RandomFloatNumber.toFixed(digits);
+  return parseFloat(RandomFloatString);
 };
 
-// аргументы, которые передаются в функции при вызове
-getRandomArbitrary(0, 100, 1);
+/**
+ * Функция осуществляет доступ к случайному элементу массива
+ * @param {string} elements - название массива
+ * @returns - возвращает случайный элемент массива
+ */
+const getRandomArrayElement = (elements) => elements[getRandomIntInclusive(0, elements.length -1 )];
 
 /**
- * Функция с тернарным оператором
+ * Функция-генератор для получения уникальных идентификаторов в указанном диапозоне и без повторения.
+ * https://up.htmlacademy.ru/profession/frontender/12/javascript/26/demos/7627#19
+ * @param {number} min - минимальное число
+ * @param {number} max - максимальное число
+ * @returns {string} - возвращает случайное значение
+ */
 
-const getRandomArbitrary = (min, max, digits) => {
-  const RANDOM_ARBITARY_NUMBER = (Math.random() * (max - min + 1) + min); //Максимум и минимум включаются
-  return (min >= 0 && max >= 0) ? RANDOM_ARBITARY_NUMBER.toFixed(digits) : ('диапазон может быть только положительный, включая ноль.');
-}
+const createRandomIdFromRangeGenerator = (min, max) => {
+  const previousValues = [];
 
-getRandomArbitrary(0, 100, 1);
-*/
+  return () => {
+    let currentValue = getRandomIntInclusive(min, max);
+    while (previousValues.includes(currentValue)) {
+      currentValue = getRandomIntInclusive(min, max);
+    }
+    previousValues.push(currentValue);
+    return currentValue;
+  };
+};
+
+const createNumber = createRandomIdFromRangeGenerator(1, 10);
+
+/**
+ * Функция создаёт случайное жильё
+ * @param {number} numberAvatar - случайное полученное число
+ * @returns {Object} - cлучайных подбор проживания
+ */
+
+
+const createAccomadation = () => {
+  const numberAvatar = createNumber();
+  const location = {
+    lat: getRandomFloat(Location.LAT_MIN, Location.LAT_MAX, Location.DIGITS),
+    lng: getRandomFloat(Location.LNG_MIN, Location.LNG_MAX, Location.DIGITS)
+  };
+  return {
+    author: {
+      avatar: `img/avatars/user${(numberAvatar < 10) ? `0${numberAvatar}` : `${numberAvatar}`}.png`
+    },
+    offer: {
+      title: getRandomArrayElement(TITLES),
+      address: `${location.lat} ${location.lng}`,
+      price: getRandomIntInclusive(0, Number.max),
+      type: getRandomArrayElement(ACCOMMODATION_TYPES),
+      rooms: getRandomIntInclusive(0, Number.max),
+      guests: getRandomIntInclusive(0, Number.max),
+      checkin: getRandomArrayElement(CHECKINS),
+      checkout: getRandomArrayElement(CHECKOUTS),
+      features: getRandomArrayElement(FEATURS),
+      description: getRandomArrayElement(DESCRIPTIONS),
+      photos: getRandomArrayElement(PHOTOS)
+    },
+    location
+  };
+};
+
+// Десять случайных подборов проживания
+const accomadation = Array.from({length: ACCOMMODATION_COUNT}, createAccomadation);
+
+console.log(accomadation);
