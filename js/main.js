@@ -106,7 +106,8 @@ const getRandomArrayElement = (elements) => elements[getRandomIntInclusive(0, el
  * @param {number} max - максимальное число
  * @returns {string} - возвращает случайное значение
  */
-function createRandomIdFromRangeGenerator (min, max) {
+
+const createRandomIdFromRangeGenerator = (min, max) => {
   const previousValues = [];
 
   return () => {
@@ -117,21 +118,26 @@ function createRandomIdFromRangeGenerator (min, max) {
     previousValues.push(currentValue);
     return currentValue;
   };
-}
+};
+
+const createNumber = createRandomIdFromRangeGenerator(1, 10);
 
 /**
  * Функция создаёт случайное жильё
  * @param {number} numberAvatar - случайное полученное число
  * @returns {Object} - cлучайных подбор проживания
  */
-const createAccomadation = (numberAvatar) => {
+
+
+const createAccomadation = () => {
+  const numberAvatar = createNumber();
   const location = {
     lat: getRandomFloat(Location.LAT_MIN, Location.LAT_MAX, Location.DIGITS),
     lng: getRandomFloat(Location.LNG_MIN, Location.LNG_MAX, Location.DIGITS)
   };
   return {
     author: {
-      avatar: `img/avatars/user${createRandomIdFromRangeGenerator(1, 10)((numberAvatar < 10) ? `0${numberAvatar}` : `${numberAvatar}`)}.png`
+      avatar: `img/avatars/user${(numberAvatar < 10) ? `0${numberAvatar}` : `${numberAvatar}`}.png`
     },
     offer: {
       title: getRandomArrayElement(TITLES),
@@ -152,3 +158,5 @@ const createAccomadation = (numberAvatar) => {
 
 // Десять случайных подборов проживания
 const accomadation = Array.from({length: ACCOMMODATION_COUNT}, createAccomadation);
+
+console.log(accomadation);
