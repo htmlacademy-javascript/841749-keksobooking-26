@@ -39,9 +39,9 @@ const getRandomArrayElement = (elements) => elements[getRandomIntInclusive(0, el
  * @returns - возвращает случайные элемент или элементы массива
  */
 const getRandomArrayElements = (elements) => {
-  const randomQuantityValues = getRandomIntInclusive(0, elements.length -1 );
-  const partIntegerArray = elements.slice(randomQuantityValues);
-  return partIntegerArray.join(', ');
+  const randomIndex = getRandomIntInclusive(0, elements.length -1 );
+  const partIntegerArray = elements.slice(randomIndex);
+  return partIntegerArray;
 };
 
 

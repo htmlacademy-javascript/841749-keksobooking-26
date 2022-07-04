@@ -1,6 +1,4 @@
-import './setup.js';
 import {createAccomadations} from './data.js';
 
-console.log(
-  createAccomadations()
-);
+const ACCOMMODATION_COUNT = 10;
+const acomodationsData = createAccomadations(ACCOMMODATION_COUNT);

@@ -65,8 +65,6 @@ const Location = {
   DIGITS: 5
 };
 
-const ACCOMMODATION_COUNT = 10;
-
 const createNumber = createRandomIdFromRangeGenerator(1, 10);
 
 /**
@@ -87,10 +85,10 @@ const createAccomadation = () => {
     offer: {
       title: getRandomArrayElement(TITLES),
       address: `${location.lat} ${location.lng}`,
-      price: getRandomIntInclusive(0, Number.max),
+      price: getRandomIntInclusive(0, 100000),
       type: getRandomArrayElement(ACCOMMODATION_TYPES),
-      rooms: getRandomIntInclusive(0, Number.max),
-      guests: getRandomIntInclusive(0, Number.max),
+      rooms: getRandomIntInclusive(0, 10),
+      guests: getRandomIntInclusive(0, 5),
       checkin: getRandomArrayElement(CHECKINS),
       checkout: getRandomArrayElement(CHECKOUTS),
       features: getRandomArrayElements(FEATURS), // Создать для функция для возврата нескольких элементов массива
@@ -106,17 +104,13 @@ const createAccomadation = () => {
  * @param {number} - число отвечающие за количество жилья.
  * @returns {Array} - возвращает определённое количество обьектов
  */
-// const createAccomadations = (count) => {
-//   const result = [];
-//   for (let index = 1; index <= count; index++) {
-//     const newAccomadation = createAccomadation(index);
-//     result.append(newAccomadation);
-//   }
-//   return result;
-// };
-
-// const acomodationsData = createAccomadations(ACCOMMODATION_COUNT);
-// console.log(acomodationsData);
-const createAccomadations = Array.from({length: ACCOMMODATION_COUNT}, createAccomadation);
+const createAccomadations = (count) => {
+  const result = [];
+  for (let index = 1; index <= count; index++) {
+    const newAccomadation = createAccomadation(index);
+    result.push(newAccomadation);
+  }
+  return result;
+};
 
 export {createAccomadations};
