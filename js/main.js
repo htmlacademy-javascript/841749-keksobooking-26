@@ -1,9 +1,8 @@
-import {createAccomadations} from './data.js';
-import './templater.js';
-import './listener.js';
-import './dom.js';
+import { createAccomadations } from './data.js';
+import { renderCard } from './card.js';
+// import { renderPinsOnMap } from './map.js';
+import './user-form.js';
 
 const ACCOMMODATION_COUNT = 10;
 const acomodationsData = createAccomadations(ACCOMMODATION_COUNT);
-
-export {acomodationsData};
+renderCard(acomodationsData[0]);
