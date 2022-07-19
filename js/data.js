@@ -113,4 +113,4 @@ const createAccomadations = (count) => {
   return result;
 };
 
-export {createAccomadations};
+export { createAccomadations };

@@ -25,7 +25,6 @@
 const renderCard = ({ author, offer }) => {
   const { avatar } = author;
   const { title, address, price, type, rooms, guests, checkin, checkout, features, description, photos } = offer;
-  const map = document.querySelector('#map-canvas');
   const cardFragment = document.querySelector('#card').content.querySelector('.popup');
   const cardElement = cardFragment.cloneNode(true);
 
@@ -48,7 +47,7 @@ const renderCard = ({ author, offer }) => {
   checkValue('.popup__description', description);
   checkValue('.popup__photo', photos);
 
-  map.appendChild(cardElement);
+  return cardElement;
 };
 
 export { renderCard };
