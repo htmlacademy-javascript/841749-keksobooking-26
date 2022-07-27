@@ -1,8 +1,14 @@
-import { createAccomadations } from './data.js';
-import './user-form.js';
-import { renderPinsOnMap } from './map.js';
+import { onSuccessMessage, debounce } from './util.js';
+import { setAccomadationsFormSubmit } from './user-form.js';
+import { getData } from './api.js';
+import { createArrayProposalFilter, redrawPinsOnMap } from './filter.js';
 
-const ACCOMMODATION_COUNT = 10;
-const acomodationsData = createAccomadations(ACCOMMODATION_COUNT);
+// Задержка отображения пинов на карте
+const RERENDER_DELAY = 500;
 
-renderPinsOnMap(acomodationsData);
+getData((cards) => {
+  createArrayProposalFilter(cards);
+  redrawPinsOnMap(debounce(() => createArrayProposalFilter(cards), RERENDER_DELAY));
+});
+
+setAccomadationsFormSubmit(onSuccessMessage);
