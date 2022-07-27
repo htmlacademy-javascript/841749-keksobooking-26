@@ -39,8 +39,8 @@ const renderCard = ({ author, offer }) => {
   checkValue('.popup__avatar', avatar);
   checkValue('.popup__title', title);
   checkValue('.popup__text--address', address);
-  checkValue('.popup__text--price', price, 'textContent', ' ₽/ночь');
-  checkValue('.popup__type', type);
+  checkValue('.popup__text--price', price, ' ₽/ночь');
+  checkValue('.popup__type', type,);
   checkValue('.popup__text--capacity', rooms, ' комнаты для ', guests, ' гостей');
   checkValue('.popup__text--time', 'Заезд после ', checkin, ', выезд до ', checkout);
   checkValue('.popup__features', features);

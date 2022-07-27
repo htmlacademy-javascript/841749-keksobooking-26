@@ -1,71 +1,38 @@
-/**
- * Функция по получению случайного целого числа в заданном интервале, включительно
- * https://developer.mozilla.org/ru/docs/Web/JavaScript/Reference/Global_Objects/Math/random - ссылка на ресурс функции
- * @param {number} min - минимальное число
- * @param {number} max - максимальное число
- * @returns {number} - возращает случайно целое число в заданном интервале
- */
-const getRandomIntInclusive = (min, max) => {
-  [min, max] = [max, min];
-  const lower = Math.ceil(Math.min(Math.abs(min), Math.abs(max)));
-  const upper = Math.floor(Math.max(Math.abs(min), Math.abs(max)));
-  return Math.floor(Math.random() * (upper - lower + 1)) + lower;
-};
+const ALERT_SHOW_TIME = 5000;
 
-/**
- * Функция, возвращающая случайное число и возможно округление.
- * https://developer.mozilla.org/ru/docs/Web/JavaScript/Reference/Global_Objects/Math/random - ссылка на ресурс функции
- * @param {number} min - минимальное число
- * @param {number} max - максимальное число
- * @param {number} digits -  количество цифр после десятичной запятой, если аргумент опущен, он считается равным 0.
- * @returns {number} - возращает случайно число в заданном интервале и возможно округление.
- */
-const getRandomFloat = (min, max, digits) => {
-  const RandomFloatNumber = (Math.random() * (max - min + 1) + min);
-  const RandomFloatString = RandomFloatNumber.toFixed(digits);
-  return parseFloat(RandomFloatString);
-};
-
-/**
- * Функция осуществляет доступ к случайному элементу массива
- * @param {string} elements - название массива
- * @returns - возвращает случайный элемент массива
- */
-const getRandomArrayElement = (elements) => elements[getRandomIntInclusive(0, elements.length -1 )];
-
-/**
- * Функция осуществляет доступ к случайным элементам массива
- * @param {string} elements - название массива
- * @returns - возвращает случайные элемент или элементы массива
- */
-const getRandomArrayElements = (elements) => {
-  const randomIndex = getRandomIntInclusive(0, elements.length -1 );
-  const partIntegerArray = elements.slice(randomIndex);
-  return partIntegerArray;
-};
-
-
-/**
- * Функция-генератор для получения уникальных идентификаторов в указанном диапозоне и без повторения.
- * https://up.htmlacademy.ru/profession/frontender/12/javascript/26/demos/7627#19
- * @param {number} min - минимальное число
- * @param {number} max - максимальное число
- * @returns {string} - возвращает случайное значение
- */
-function createRandomIdFromRangeGenerator(min, max) {
-  const previousValues = [];
-  return () => {
-    let currentValue = getRandomIntInclusive(min, max);
-    while (previousValues.includes(currentValue)) {
-      currentValue = getRandomIntInclusive(min, max);
-    }
-    previousValues.push(currentValue);
-    return currentValue;
+const debounce = (callback, timeoutDelay) => {
+  let timeoutId;
+  return (...rest) => {
+    clearTimeout(timeoutId);
+    timeoutId = setTimeout(() => callback.apply(this, rest), timeoutDelay);
   };
-}
+};
 
-export {getRandomIntInclusive};
-export {getRandomFloat};
-export {getRandomArrayElement};
-export {getRandomArrayElements};
-export {createRandomIdFromRangeGenerator};
+const showAlert = (message) => {
+  const alertContainer = document.createElement('div');
+  alertContainer.style.zIndex = '100';
+  alertContainer.style.position = 'absolute';
+  alertContainer.style.left = '0';
+  alertContainer.style.top = '0';
+  alertContainer.style.right = '0';
+  alertContainer.style.padding = '10px 3px';
+  alertContainer.style.fontSize = '30px';
+  alertContainer.style.textAlign = 'center';
+  alertContainer.style.backgroundColor = 'red';
+
+  alertContainer.textContent = message;
+
+  document.body.append(alertContainer);
+
+  setTimeout(() => {
+    alertContainer.remove();
+  }, ALERT_SHOW_TIME);
+};
+
+const onSuccessMessage = () => {
+  const successMessageTemplate = document.querySelector('#success').textContent;
+  const selectorMessageElement = successMessageTemplate.cloneNode(true);
+  document.body.append(selectorMessageElement);
+};
+
+export { debounce, showAlert, onSuccessMessage };
