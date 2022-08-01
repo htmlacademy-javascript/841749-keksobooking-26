@@ -33,10 +33,4 @@ const showAlert = (message) => {
   }, ALERT_SHOW_TIME);
 };
 
-const onSuccessMessage = () => {
-  const successMessageTemplate = document.querySelector('#success').textContent;
-  const selectorMessageElement = successMessageTemplate.cloneNode(true);
-  document.body.append(selectorMessageElement);
-};
-
-export { debounce, getEscEvent, showAlert, onSuccessMessage };
+export { debounce, getEscEvent, showAlert };

@@ -1,4 +1,5 @@
 const FILE_TYPES = ['gif', 'jpg', 'jpeg', 'png'];
+const IMG_DEFAULT = 'img/muffin-grey.svg';
 
 const renderPhoto = (fileChoose, cb) => {
   fileChoose.addEventListener('change', () => {
@@ -21,5 +22,4 @@ const renderPhoto = (fileChoose, cb) => {
   });
 };
 
-export { renderPhoto };
-
+export { renderPhoto, IMG_DEFAULT };

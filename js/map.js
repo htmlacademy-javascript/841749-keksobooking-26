@@ -1,26 +1,14 @@
+import { filterFormElement } from './filter.js';
 import { renderCard } from './card.js';
+import { avatarPreview, adFormPhoto, orderFormElement, changesTypeSyncPrice, createMainPinLocation, activateAd } from './user-form.js';
+import { IMG_DEFAULT } from './picture.js';
 
-const MAIN_LAT = 35.6894;
-const MAIN_LNG = 139.692;
+const CENTER = {
+  lat: 35.6894,
+  lng: 139.692
+};
+
 const ZOOM = 12;
-const NUMBERS_FOR_ROUNDING = 5;
-
-const formAddress = document.querySelector('#address');
-
-const map = L.map('map-canvas')
-  .on('load', () => {
-  })
-  .setView({
-    lat: MAIN_LAT,
-    lng: MAIN_LNG
-  }, ZOOM);
-
-L.tileLayer(
-  'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
-  {
-    attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
-  },
-).addTo(map);
 
 const mainPinIcon = L.icon({
   iconUrl: './img/main-pin.svg',
@@ -29,52 +17,39 @@ const mainPinIcon = L.icon({
 });
 
 const mainPinMarker = L.marker(
-  {
-    lat: MAIN_LAT,
-    lng: MAIN_LNG
-  },
-  {
+  CENTER, {
     draggable: true,
     icon: mainPinIcon,
   }
 );
 
+const map = L.map('map-canvas');
+
+const getMap = () => {
+  map.on('load', () => {
+    activateAd();
+    createMainPinLocation(CENTER);
+  })
+    .setView(CENTER, ZOOM);
+
+  L.tileLayer(
+    'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
+    {
+      attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
+    },
+  ).addTo(map);
+};
+
 mainPinMarker.addTo(map);
-
-
-const resetButtonElement = document.querySelector('.ad-form__reset');
-resetButtonElement.addEventListener('click', () => {
-  mainPinMarker.setLatLng({
-    lat: MAIN_LAT,
-    lng: MAIN_LNG
-  });
-  map.setView({
-    lat: MAIN_LAT,
-    lng: MAIN_LNG
-  }, ZOOM);
-});
-
-/**
- * infoLocation - координаты основного пина, округленного после запятой до 5 символов
- * .value - значение выводящие в адресную строку инпута
- */
-
-// const createMainPinLocation = () => {
-formAddress.value = `${mainPinMarker.getLatLng().lat.toFixed(NUMBERS_FOR_ROUNDING)}, ${mainPinMarker.getLatLng().lng.toFixed(NUMBERS_FOR_ROUNDING)}`;
-// const infoLocation = `${mainPinMarker.getLatLng().lat.toFixed(5)}, ${mainPinMarker.getLatLng().lng.toFixed(5)}`;
-// document.getElementById('address').value = infoLocation;
-// };
 
 /**
  * Событие отвечающие на движения пина и вывода информации в адресную строку.
  */
-mainPinMarker.on('moveend', (evt) => {
-  evt.target.getLatLng();
-  document.getElementById('address')
-    .value = `${mainPinMarker.getLatLng().lat.toFixed(NUMBERS_FOR_ROUNDING)}, ${mainPinMarker.getLatLng().lng.toFixed(NUMBERS_FOR_ROUNDING)}`;
+const moveMainMarkerCoordinates = () => mainPinMarker.on('move', (evt) => {
+  const points = evt.target.getLatLng();
+  createMainPinLocation(points);
 });
-
-// mainPinMarker.remove();
+moveMainMarkerCoordinates();
 
 const icon = L.icon({
   iconUrl: './img/pin.svg',
@@ -99,6 +74,27 @@ const renderPinsOnMap = (points) => {
   });
 };
 
+// Очищение слоя с метками объявлений
+const clearMarker = () => markerGroup.clearLayers();
+
+/**
+ * Форма и карта переходят в дефолтное состояние
+ */
+const resetPage = () => {
+  mainPinMarker.setLatLng(CENTER);
+  map.setView(CENTER, ZOOM);
+  orderFormElement.reset();
+  avatarPreview.src = IMG_DEFAULT;
+  adFormPhoto.innerHTML = '';
+  const adFormInputs = orderFormElement.querySelectorAll('input');
+  adFormInputs.forEach((input) => input.style.borderColor = '');
+  const resetMainPinMarker = mainPinIcon.getLatLng();
+  createMainPinLocation(resetMainPinMarker);
+  changesTypeSyncPrice();
+  filterFormElement.reset();
+  clearMarker();
+};
+
 const clearRenderPinsOnMap = () => markerGroup.clearLayers();
 
-export { renderPinsOnMap, clearRenderPinsOnMap };
+export { getMap, createMainPinLocation, renderPinsOnMap, clearRenderPinsOnMap, resetPage, mainPinMarker };

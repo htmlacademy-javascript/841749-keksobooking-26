@@ -21,6 +21,7 @@ const filterPrice = {
 };
 
 const filterFormElement = document.querySelector('.map__filters');
+const filterFormListElement = filterFormElement.children;
 const housingTypeElement = filterFormElement.querySelector('#housing-type');
 const housingPriceElement = filterFormElement.querySelector('#housing-price');
 const housingRoomsElement = filterFormElement.querySelector('#housing-rooms');
@@ -82,4 +83,4 @@ const redrawPinsOnMap = (proposalAccommodationArray) => {
   });
 };
 
-export { createArrayProposalFilter, redrawPinsOnMap };
+export { createArrayProposalFilter, redrawPinsOnMap, filterFormElement, filterFormListElement };

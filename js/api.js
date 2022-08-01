@@ -19,11 +19,11 @@ const getData = (onSuccess) => {
 };
 
 /**
- *
- * @param {*} onSuccess
- * @param {*} body
+ * Функция отправляющая данные на сервер
+ * @param {*} onSuccess - callback вызывается при выполнение.
+ * @param {*} body - формы данные, полученные методом FormData
  */
-const sendData = (onSuccess, body) => {
+const sendData = (onSuccess, onFail, body) => {
   fetch(
     URL_POST_SERVER,
     {
@@ -35,11 +35,11 @@ const sendData = (onSuccess, body) => {
       if (response.ok) {
         onSuccess();
       } else {
-        showAlert('Не удалось отправить форму. Попробуйте ещё раз');
+        onFail('Не удалось отправить форму. Попробуйте ещё раз');
       }
     })
     .catch(() => {
-      showAlert('Не удалось отправить форму. Попробуйте ещё раз');
+      onFail('Не удалось отправить форму. Попробуйте ещё раз');
     });
 };
 
