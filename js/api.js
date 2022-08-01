@@ -1,20 +1,34 @@
+import { showAlert } from './util.js';
+
+const URL_GET_SERVER = 'https://26.javascript.pages.academy/keksobooking/data';
+const URL_POST_SERVER = 'https://26.javascript.pages.academy/keksobooking';
+
+/**
+ * Функция по получению данных с сервера
+ * @param {*} onSuccess -  callback вызывается при выполнение.
+ */
 const getData = (onSuccess) => {
-  fetch('https://26.javascript.pages.academy/keksobooking/data')
+  fetch(URL_GET_SERVER)
     .then((response) => response.json())
     .then((accomadations) => {
       onSuccess(accomadations);
+    })
+    .catch(() => {
+      showAlert('Данные с сервера не пришли. Попробуйте ещё раз');
     });
 };
 
+/**
+ * Функция отправляющая данные на сервер
+ * @param {*} onSuccess - callback вызывается при выполнение.
+ * @param {*} body - формы данные, полученные методом FormData
+ */
 const sendData = (onSuccess, onFail, body) => {
   fetch(
-    'https://26.javascript.pages.academy/keksobooking',
+    URL_POST_SERVER,
     {
       method: 'POST',
       body,
-      headers: {
-        'Content-Type': 'multipart/form-data',
-      }
     },
   )
     .then((response) => {
