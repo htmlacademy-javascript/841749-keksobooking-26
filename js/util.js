@@ -1,4 +1,6 @@
 const ALERT_SHOW_TIME = 5000;
+const ESC_ALL = 'Escape';
+const ESC_IE = 'Esc';
 
 const debounce = (callback, timeoutDelay) => {
   let timeoutId;
@@ -7,6 +9,8 @@ const debounce = (callback, timeoutDelay) => {
     timeoutId = setTimeout(() => callback.apply(this, rest), timeoutDelay);
   };
 };
+
+const getEscEvent = (evt) => evt.key === ESC_ALL || evt.key === ESC_IE;
 
 const showAlert = (message) => {
   const alertContainer = document.createElement('div');
@@ -35,4 +39,4 @@ const onSuccessMessage = () => {
   document.body.append(selectorMessageElement);
 };
 
-export { debounce, showAlert, onSuccessMessage };
+export { debounce, getEscEvent, showAlert, onSuccessMessage };

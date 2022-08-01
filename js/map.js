@@ -3,6 +3,9 @@ import { renderCard } from './card.js';
 const MAIN_LAT = 35.6894;
 const MAIN_LNG = 139.692;
 const ZOOM = 12;
+const NUMBERS_FOR_ROUNDING = 5;
+
+const formAddress = document.querySelector('#address');
 
 const map = L.map('map-canvas')
   .on('load', () => {
@@ -39,8 +42,8 @@ const mainPinMarker = L.marker(
 mainPinMarker.addTo(map);
 
 
-const resetButton = document.querySelector('.ad-form__reset');
-resetButton.addEventListener('click', () => {
+const resetButtonElement = document.querySelector('.ad-form__reset');
+resetButtonElement.addEventListener('click', () => {
   mainPinMarker.setLatLng({
     lat: MAIN_LAT,
     lng: MAIN_LNG
@@ -55,8 +58,12 @@ resetButton.addEventListener('click', () => {
  * infoLocation - координаты основного пина, округленного после запятой до 5 символов
  * .value - значение выводящие в адресную строку инпута
  */
-const infoLocation = `${mainPinMarker.getLatLng().lat.toFixed(5)}, ${mainPinMarker.getLatLng().lng.toFixed(5)}`;
-document.getElementById('address').value = infoLocation;
+
+// const createMainPinLocation = () => {
+formAddress.value = `${mainPinMarker.getLatLng().lat.toFixed(NUMBERS_FOR_ROUNDING)}, ${mainPinMarker.getLatLng().lng.toFixed(NUMBERS_FOR_ROUNDING)}`;
+// const infoLocation = `${mainPinMarker.getLatLng().lat.toFixed(5)}, ${mainPinMarker.getLatLng().lng.toFixed(5)}`;
+// document.getElementById('address').value = infoLocation;
+// };
 
 /**
  * Событие отвечающие на движения пина и вывода информации в адресную строку.
@@ -64,7 +71,7 @@ document.getElementById('address').value = infoLocation;
 mainPinMarker.on('moveend', (evt) => {
   evt.target.getLatLng();
   document.getElementById('address')
-    .value = `${mainPinMarker.getLatLng().lat.toFixed(5)}, ${mainPinMarker.getLatLng().lng.toFixed(5)}`;
+    .value = `${mainPinMarker.getLatLng().lat.toFixed(NUMBERS_FOR_ROUNDING)}, ${mainPinMarker.getLatLng().lng.toFixed(NUMBERS_FOR_ROUNDING)}`;
 });
 
 // mainPinMarker.remove();
