@@ -74,7 +74,9 @@ const renderPinsOnMap = (points) => {
   });
 };
 
-// Очищение слоя с метками объявлений
+/**
+ * Очищение слоя с метками объявлений
+ */
 const clearMarker = () => markerGroup.clearLayers();
 
 /**
@@ -86,7 +88,7 @@ const resetPage = () => {
   orderFormElement.reset();
   avatarPreview.src = IMG_DEFAULT;
   adFormPhoto.innerHTML = '';
-  const resetMainPinMarker = mainPinIcon.getLatLng();
+  const resetMainPinMarker = mainPinMarker.getLatLng();
   createMainPinLocation(resetMainPinMarker);
   changesTypeSyncPrice();
   filterFormElement.reset();

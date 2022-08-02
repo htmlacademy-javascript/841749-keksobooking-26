@@ -21,6 +21,7 @@ const getData = (onSuccess) => {
 /**
  * Функция отправляющая данные на сервер
  * @param {*} onSuccess - callback вызывается при выполнение.
+ * @param {*} onFail - callback вызывается при не выполнение.
  * @param {*} body - формы данные, полученные методом FormData
  */
 const sendData = (onSuccess, onFail, body) => {
