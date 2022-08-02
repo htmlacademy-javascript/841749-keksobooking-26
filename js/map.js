@@ -86,8 +86,6 @@ const resetPage = () => {
   orderFormElement.reset();
   avatarPreview.src = IMG_DEFAULT;
   adFormPhoto.innerHTML = '';
-  const adFormInputs = orderFormElement.querySelectorAll('input');
-  adFormInputs.forEach((input) => input.style.borderColor = '');
   const resetMainPinMarker = mainPinIcon.getLatLng();
   createMainPinLocation(resetMainPinMarker);
   changesTypeSyncPrice();
