@@ -52,7 +52,10 @@ const getAvatar = (result) => {
   adFormAvatar.appendChild(fragment);
 };
 
-// Создать превью фотографии жилья
+/**
+ * Функция по созданию превью фотографии жилья
+ * @param {*} result - вывод результата
+ */
 const getPhoto = (result) => {
   adFormPhoto.innerHTML = '';
   const fragment = document.createDocumentFragment();
@@ -71,7 +74,9 @@ const getPhotoPreview = () => renderPhoto(photoChooser, getPhoto);
 getAvatarPreview();
 getPhotoPreview();
 
-// Передача координат главной метки в поле "Адрес (координаты)"
+/**
+ * Передача координат главной метки в поле "Адрес (координаты)"
+ */
 const createMainPinLocation = () => {
   formAddress.value = `${(mainPinMarker.getLatLng().lat).toFixed(NUMBERS_FOR_ROUNDING)}, ${(mainPinMarker.getLatLng().lng).toFixed(NUMBERS_FOR_ROUNDING)}`;
 };
@@ -146,7 +151,9 @@ const validateRoomCapacity = () => {
 pristine.addValidator(numberOfRooms, validateRoomCapacity, 'Невыспитесь');
 pristine.addValidator(numberOfGuests, validateRoomCapacity);
 
-// Неактивное состояние страницы: формы "Ваше объявление" и фильтра для карты
+/**
+ * Неактивное состояние страницы: формы "Ваше объявление" и фильтра для карты
+ */
 const disablePage = () => {
   orderFormElement.classList.add('ad-form--disabled');
   for (const elem of adFormListElements) {
@@ -158,10 +165,16 @@ const disablePage = () => {
   }
 };
 
-// Активное состояние формы "Ваше объявление"
+/**
+ * Активное состояние формы "Ваше объявление"
+ */
 const activateAd = () => {
   orderFormElement.classList.remove('ad-form--disabled');
   for (const elem of adFormListElements) {
+    elem.removeAttribute('disabled');
+  }
+  filterFormElement.classList.remove('map__filters--disabled');
+  for (const elem of filterFormListElement) {
     elem.removeAttribute('disabled');
   }
 };
@@ -209,7 +222,9 @@ orderFormElement.addEventListener('reset', () => {
   pristine.reset();
 });
 
-// Нажатие на кнопку "очистить" (reset-форма)
+/**
+ * Функция очистка формы. Нажатие на кнопку "очистить" (reset-форма)
+ */
 const onButtonReset = (cb) => {
   adFormReset.addEventListener('click', (evt) => {
     evt.preventDefault();
